@@ -92,7 +92,8 @@ Após analisar os erros(MAE, MAPE e RMSE) optei por seguir com o *XGBoost Regres
 
 Após enviar o modelo para produção, fiz um bot no telegram que busca em tempo real a previsão de vendas para a loja desejada:
 
-![rossmann bot.jpg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e0818c53-27d9-4a10-874b-22e3913f0a0f/rossmann_bot.jpg)
+![rossmann bot](https://user-images.githubusercontent.com/128603807/236702453-dae91759-bd2e-44be-8079-3de5cf56be14.jpg)
+
 
 ## 07. Produto Final e Conclusão
 
