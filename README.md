@@ -1,4 +1,5 @@
 # Rossmann Store Sales Prediction
+![rossmann](https://github.com/EDJR94/Data-Science-Em-Producao/assets/128603807/982bd982-b6d6-4174-8f87-93063fd96acf)
 
 ## 01. Problema de Negócio
 
