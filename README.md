@@ -1,103 +1,100 @@
 # Rossmann Store Sales Prediction
 ![rossmann](https://github.com/EDJR94/Data-Science-Em-Producao/assets/128603807/982bd982-b6d6-4174-8f87-93063fd96acf)
 
-## 01. Problema de Negócio
+## 01. Business Problem
 
-A Rossmann opera mais de 3.000 lojas de drogarias em 7 países europeus. As vendas da loja são influenciadas por muitos fatores, incluindo promoções, concorrência, feriados escolares e estaduais, sazonalidade e localização. Atualmente, os gerentes de loja da Rossmann têm a tarefa de prever suas vendas diárias com até seis semanas de antecedência. Com milhares de gerentes individuais prevendo vendas com base em suas circunstâncias únicas, a precisão dos resultados pode ser bastante variada.
+Rossmann operates over 3,000 drugstore chains in 7 European countries. Store sales are influenced by various factors, including promotions, competition, school and state holidays, seasonality, and location. Currently, Rossmann store managers are tasked with predicting their daily sales up to six weeks in advance. With thousands of individual managers making predictions based on their unique circumstances, the accuracy of results can vary significantly.
 
-Como Cientista de Dados, fui encarregado de, através da Análise da Dados e modelos de Machine Learning, a ajudar a prever essas vendas diárias com 6 semanas de antecedência e reportar o resultado ao CFO através de um Bot no Telegram.
+As a Data Scientist, my task was to help predict these daily sales with a six-week lead time through Data Analysis and Machine Learning models and report the results to the CFO via a Telegram Bot.
 
-## 02. Premissas
+## 02. Assumptions
 
-- O conjunto de dados contém as vendas realizadas entre 01/01/2013 e 31/07/2015.
-- As variáveis/atributos originais (e seus significados) do conjunto de dados são:
+- The dataset contains sales made between 01/01/2013 and 07/31/2015.
+- The original variables/attributes (and their meanings) in the dataset are as follows:
 
-| Atributos | Significado |
+| Attributes | Meaning |
 | --- | --- |
-| store | id único para cada loja |
-| day_of_week | dia da semana (1 a 7) |
-| date | data |
-| sales | o volume financeiro de vendas no dia |
-| customers | o número de clientes no dia |
-| open | indicador se a loja estava aberta ou não (0 = fechada, 1 = aberta) |
-| promo | indica se a loja estava com alguma promoção no dia |
-| state_holiday | indica se era feriado estadual/nacional no dia (a = feriado público, b = Páscoa, c = Natal, 0 = nenhum) |
-| school_holiday | indica se a loja no dia foi afetada pelo fechamento das escolas públicas |
-| store_type | indica o tipo da loja (4 tipos: a, b, c, d) |
-| assortment | descreve o nível de mix de produtos (a = básico, b = extra, c = extenso) |
-| competition_distance | distância em metros para a loja do concorrente mais próxima |
-| competition_open_since_month | mês que a loja do concorrente mais próxima foi aberta |
-| competition_open_since_year | ano que a loja do concorrente mais próxima foi aberta |
-| promo2 | promoção contínua e consecutiva para algumas lojas (0 = loja não participou, 1 = loja participou) |
-| promo2_since_week | indica a semana do ano que a loja começou a participar da promo2 |
-| promo2_since_year | indica o ano que a loja começou a participar da promo2 (complementar à promo2_since_week) |
-| promo_interval | descreve os intervalos consecutivos que a promo2 começou, indicando os meses que a promoção começou novamente (Ex.: "Feb,May,Aug,Nov" significa que cada intervalo começou em Fevereiro, Maio, Agosto e Novembro em determinado ano para determinada loja) |
+| store | unique id for each store |
+| day_of_week | day of the week (1 to 7) |
+| date | date |
+| sales | financial volume of sales on the day |
+| customers | number of customers on the day |
+| open | indicator if the store was open (0 = closed, 1 = open) |
+| promo | indicates if the store had a promotion on the day |
+| state_holiday | indicates if it was a state/national holiday (a = public holiday, b = Easter, c = Christmas, 0 = none) |
+| school_holiday | indicates if the store was affected by the closure of public schools on the day |
+| store_type | indicates the store type (4 types: a, b, c, d) |
+| assortment | describes the level of product assortment (a = basic, b = extra, c = extended) |
+| competition_distance | distance in meters to the nearest competitor store |
+| competition_open_since_month | month when the nearest competitor store opened |
+| competition_open_since_year | year when the nearest competitor store opened |
+| promo2 | ongoing and consecutive promotion for some stores (0 = store did not participate, 1 = store participated) |
+| promo2_since_week | indicates the week of the year when the store started participating in promo2 |
+| promo2_since_year | indicates the year when the store started participating in promo2 (complementary to promo2_since_week) |
+| promo_interval | describes the consecutive intervals when promo2 started, indicating the months when the promotion started again (Ex.: "Feb,May,Aug,Nov" means each interval started in February, May, August, and November in a given year for a given store) |
 
-## 03. Estratégias de Solução
+## 03. Solution Strategy
 
-A estratégia utilizada foi o método CRISP, dividido em 10 partes:
+The strategy used was the CRISP method, divided into 10 parts:
 
 ![crisp](https://github.com/EDJR94/pa004_health_insurance/assets/128603807/67b3ae4f-ea88-42e9-9cb4-43eee51cec4a)
 
-1. Questão de Negócio apresentada pelo CFO.
-2. Entendimento do Negócio da Rossmann.
-3. Coleta de Dados.
-4. Limpeza de Dados.
-5. Exploração de Dados.
-6. Modelagem dos Dados.
-7. Utilização de Modelos de Machine Learning.
-8. Avaliação do Algoritmo de Machine Learning.
-9. Deploy do Modelo em Produção.
-10. Bot no Telegram.
+1. Business question presented by the CFO.
+2. Understanding the Rossmann Business.
+3. Data Collection.
+4. Data Cleaning.
+5. Data Exploration.
+6. Data Modeling.
+7. Using Machine Learning Models.
+8. Evaluation of Machine Learning Algorithm.
+9. Model Deployment in Production.
+10. Telegram Bot.
 
-## 04. Melhores Insights do Negócio
+## 04. Key Business Insights
 
-Foram levantadas as seguintes hipóteses de negócio de acordo com como funcionava o negócio da Rossmann:
+The following business hypotheses were raised based on how Rossmann operates:
 
-1. Lojas com maior sortimentos deveriam vender mais.
-2. Lojas com competidores mais próximos deveriam vender menos.
-3. Lojas com competidores à mais tempo deveriam vendem mais.
-4. Lojas com promoções ativas por mais tempo deveriam vender mais.
-5. Lojas com mais promoções consecutivas deveriam vender mais.
-6. Lojas abertas durante o feriado de Natal deveriam vender mais.
-7.  Lojas deveriam vender mais ao longo dos anos.
-8.  Lojas deveriam vender mais no segundo semestre do ano.
-9.  Lojas deveriam vender mais depois do dia 10 de cada mês.
-10.  Lojas deveriam vender menos aos finais de semana.
-11.  Lojas deveriam vender menos durante os feriados escolares.
+1. Stores with a larger assortment should sell more.
+2. Stores with closer competitors should sell less.
+3. Stores with longer-standing competitors should sell more.
+4. Stores with longer-running promotions should sell more.
+5. Stores with more consecutive promotions should sell more.
+6. Stores open during Christmas holidays should sell more.
+7. Stores should sell more over the years.
+8. Stores should sell more in the second half of the year.
+9. Stores should sell more after the 10th day of each month.
+10. Stores should sell less on weekends.
+11. Stores should sell less during school holidays.
 
-Dentre as 11 hitóteses, as mais imporantes consideradas por mim foram:
+Among the 11 hypotheses, the most important ones considered by me were:
 
-1.  Lojas com competidores a mais tempo deveriam vender mais.
+1. Stores with longer-standing competitors should sell more.
 
-![h1 hipotese](https://github.com/EDJR94/Data-Science-Em-Producao/assets/128603807/100e4719-8fc2-4ed4-8c03-db42674916c6)
+![h1 hypothesis](https://github.com/EDJR94/Data-Science-Em-Producao/assets/128603807/100e4719-8fc2-4ed4-8c03-db42674916c6)
 
-Pelo gráfico podemos ver que quanto mais perto da data atual(2015) a loja competidora abre,
-mais as lojas das Rossmann vendem. Isso também pode ser visto com a correlação positiva.
+From the graph, we can see that the closer the competitor store opens to the current date (2015), the more Rossmann stores sell. This can also be seen from the positive correlation.
 
-2.  Lojas deveriam vender no segundo semestre
+2. Stores should sell more in the second semester.
 
 ![download (2)](https://github.com/EDJR94/Data-Science-Em-Producao/assets/128603807/c6d47e45-684d-48a7-a153-354f68748eb7)
 
-Pelo gráfico podemos ver que as vendas caem significativamente após o mês 6 e com uma correação bem negativa.
+From the graph, we can see that sales drop significantly after month 6, with a strong negative correlation.
 
-3.  Lojas deveriam vender mais depois do dia 10 de cada mês.
+3. Stores should sell more after the 10th day of each month.
 
 ![download (3)](https://github.com/EDJR94/Data-Science-Em-Producao/assets/128603807/e68b99ae-b9f4-42d5-ad6b-f775a148f38c)
 
-Pelo gráfico observamos que as lojas vendem de uma forma lateral ao longo dos dias do mês. Não há uma correlação forte entre o dia 
-do mês e as vendas.
+From the graph, we observe that store sales fluctuate throughout the days of the month. There is no strong correlation between the day of the month and sales.
 
-4.  Vendas deveriam ser menor nos feriados escolares.
+4. Sales should be lower during school holidays.
 
 ![download (4)](https://github.com/EDJR94/Data-Science-Em-Producao/assets/128603807/efeb5c56-7f38-4584-b57c-a70980965fda)
 
-Realmente as vendas são menores nos feriados escolares, porém há um detalhe no mês 7 e 8 que  as vendas se igualam e são maiores.
-Provalvemente por causa das férias escolares.
+Indeed, sales are lower during school holidays, but there is a detail in months 7 and 8 where sales are equal and higher. This is likely due to summer vacations.
 
 ## 05. Machine Learning
 
-Foram usados os seguintes modelos de Machine Learning para analisar a previsão das vendas:
+The following Machine Learning models were used to analyze sales prediction:
 
 - *Average Model*
 - *Linear Regression*
@@ -105,18 +102,17 @@ Foram usados os seguintes modelos de Machine Learning para analisar a previsão 
 - *Random Forest Regressor*
 - *XGBoost Regressor*
 
-Após analisar os erros(MAE, MAPE e RMSE) abaixo optei por seguir com o *XGBoost Regressor*. Embora o *Random Forest* tenha apresentado
-um valor de erro um pouco melhor, ele tem um tamanho muito maior que o *XGBoost Regressor*.
+After analyzing the errors (MAE, MAPE, and RMSE) below, I chose to proceed with the *XGBoost Regressor*. Although the *Random Forest* presented slightly better error values, it has a significantly larger size than the *XGBoost Regressor*.
+
 | Model Name | MAE | MAPE | RMSE |
 | --- | --- | --- | --- |
 | Random Forest Regressor | 680.854054 | 0.100115 | 1012.687130 |
-| XGB Regressor | 868.958205 | 0.130309 | 1238.550843 |
+| XGBoost Regressor | 868.958205 | 0.130309 | 1238.550843 |
 | Average Model | 1354.800353 | 0.206400 | 1835.135542 |
 | Linear Regression | 1867.089774 | 0.292694 | 2671.049215 |
 | Linear Regression - Lasso | 1891.704881 | 0.289106 | 2744.451741 |
 
-Após aplicar o Cross-Validation, podemos observar na tabela abaixo que os erros estão próximos aos erros aplicados ao dataset de treino acima,
-confirmando que o modelo está com uma boa capacidade de generalização.
+After applying Cross-Validation, we can observe from the table below that the errors are close to the errors applied to the training dataset above, confirming that the model has good generalization capability.
 
 | Model Name | MAE CV | MAPE CV | RMSE CV |
 | --- | --- | --- | --- |
@@ -125,15 +121,15 @@ confirmando que o modelo está com uma boa capacidade de generalização.
 | Linear Regressoion | 2081.73 +/- 295.63 | 0.3 +/- 0.02 | 2952.52 +/- 468.37 |
 | Linear Regression - Lasso | 2116.38 +/- 341.5 | 0.29 +/- 0.01 | 3057.75 +/- 504.26 |
 
-Por fim, o modelo final, após ajustado os hiperparâmetros, foi o seguinte:
+Finally, the final model, after adjusting the hyperparameters, was as follows:
 
 | Model Name | MAE | MAPE | RMSE |
 | --- | --- | --- | --- |
 | XGBoost Regressor | 695.985642 | 0.102112 | 1007.379751 |
 
-## 06. Tradução do Modelo para o Negócio
-A partir das previsões feitas pelo modelo, podemos traduzir os valores de erro encontrados em valor estimado para o negócio.
-Na tabela abaixo estão as previsões feitas pelo modelo considerando o pior e melhor cenário em valor financeiro.
+## 06. Business Model Translation
+
+From the predictions made by the model, we can translate the error values found into estimated business values. In the table below are the model's predictions considering the worst and best financial scenarios.
 
 | Scenarios | Values |
 | --- | --- |
@@ -141,27 +137,27 @@ Na tabela abaixo estão as previsões feitas pelo modelo considerando o pior e m
 | worst_scenario | R$ 283,938,442.77 |
 | best_scenario | R$ 285,498,228.15 |
 
-## 07. Bot no Telegram
+## 07. Telegram Bot
 
-Após enviar o modelo para produção, fiz um bot no telegram que busca em tempo real a previsão de vendas para a loja desejada:
+After deploying the model to production, I created a Telegram bot that retrieves real-time sales predictions for the desired store:
 
 ![rossmann bot](https://user-images.githubusercontent.com/128603807/236702453-dae91759-bd2e-44be-8079-3de5cf56be14.jpg)
 
+## 08. Final Product and Conclusion
 
-## 08. Produto Final e Conclusão
+The final product was the Telegram bot that can be accessed by the CFO from any device connected to the internet and using Telegram, facilitating the budget definition for the renovation of each store. Additionally, the hypotheses generated valuable insights that can be used to increase sales.
 
-O produto final foi o bot no telegram que pode ser acessado pelo CFO de qualquer dispositivo que possua o Telegram conectado à internet, facilitando a definição do orçamento para a reforma de cada loja, além disso as próprias hipóteses analisadas geraram Insights que podem ser utilizados por ele para aumentar as vendas 
+## 09. Next Steps
 
-## 09. Próximos Passos
+Continue with additional CRISP cycles, focusing on:
 
-Realizar mais Ciclos do CRISP focando em:
+- Testing other Machine Learning models.
+- Filling missing data in other ways.
+- Testing other approaches to deal with outliers.
+- Exploring alternative strategies to define model hyperparameters.
+- Adding more query options to the Telegram Bot.
 
-- Testar outros modelos de Machine Learning.
-- Preencher os dados faltantes de outra formar.
-- Testar outras formas de lidar com os Outliers.
-- Utilizas outras estratégias para definir os Hyperparâmetros do modelo.
-- Mais opções de consulta no Bot do Telegram.
+## References
 
-## Referências
+Dataset: [https://www.kaggle.com/competitions/rossmann-store-sales](https://www.kaggle.com/competitions/rossmann-store-sales)
 
-Conjunto de dados: [https://www.kaggle.com/competitions/rossmann-store-sales](https://www.kaggle.com/competitions/rossmann-store-sales)
